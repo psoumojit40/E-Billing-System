@@ -1,0 +1,177 @@
+{
+  "products": [
+    {
+      "id": "prod-1787729021071-730y",
+      "sku": "PROD007",
+      "name": "Product Z",
+      "description": "Chips",
+      "price": 1000.2,
+      "gstRate": 18,
+      "hsnCode": "84931",
+      "unit": "Pcs",
+      "stock": 100,
+      "created_at": "2026-08-26T07:23:41.071Z"
+    },
+    {
+      "id": "prod-1",
+      "sku": "PROD001",
+      "name": "Product A",
+      "description": "Premium product with enterprise level quality and SLA support",
+      "price": 500,
+      "gstRate": 18,
+      "hsnCode": "8471",
+      "unit": "Pcs",
+      "stock": 120,
+      "created_at": "2026-08-26T07:21:00.917Z"
+    },
+    {
+      "id": "prod-2",
+      "sku": "PROD002",
+      "name": "Product B",
+      "description": "Standard product engineered for daily workflow and business reliability",
+      "price": 750,
+      "gstRate": 18,
+      "hsnCode": "8473",
+      "unit": "Pcs",
+      "stock": 85,
+      "created_at": "2026-08-26T07:21:00.918Z"
+    },
+    {
+      "id": "prod-3",
+      "sku": "PROD003",
+      "name": "Product C",
+      "description": "Economy product providing cost-effective performance for general operations",
+      "price": 300,
+      "gstRate": 12,
+      "hsnCode": "8472",
+      "unit": "Pcs",
+      "stock": 240,
+      "created_at": "2026-08-26T07:21:00.918Z"
+    },
+    {
+      "id": "prod-4",
+      "sku": "PROD004",
+      "name": "Enterprise Cloud Suite",
+      "description": "Annual multi-tier cloud management license and server backup utilities",
+      "price": 2400,
+      "gstRate": 18,
+      "hsnCode": "998313",
+      "unit": "Lic",
+      "stock": 999,
+      "created_at": "2026-08-26T07:21:00.918Z"
+    },
+    {
+      "id": "prod-5",
+      "sku": "PROD005",
+      "name": "Annual Maintenance Support (AMC)",
+      "description": "24/7 dedicated engineering support contract and quarterly hardware audits",
+      "price": 1200,
+      "gstRate": 18,
+      "hsnCode": "998717",
+      "unit": "Yr",
+      "stock": 500,
+      "created_at": "2026-08-26T07:21:00.918Z"
+    },
+    {
+      "id": "prod-6",
+      "sku": "PROD006",
+      "name": "Essential Peripheral Pack",
+      "description": "Ergonomic high-precision peripherals bundle with braided cables",
+      "price": 450,
+      "gstRate": 5,
+      "hsnCode": "8528",
+      "unit": "Set",
+      "stock": 60,
+      "created_at": "2026-08-26T07:21:00.918Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv-1787728954828",
+      "invoiceNumber": "INV-202608-5169",
+      "createdAt": "2026-08-26T07:22:34.828Z",
+      "updatedAt": "2026-08-26T07:26:18.726Z",
+      "company": {
+        "companyName": "Apex Enterprise Solutions Pvt. Ltd.",
+        "tagline": "Enterprise Technology & Cloud Services",
+        "companyAddress": "Plot 42, Tech Park Boulevard, Sector 5, Salt Lake, Kolkata, West Bengal 700091",
+        "phone": "+91 33 2948 1000",
+        "email": "billing@apexenterprise.com",
+        "gstNumber": "19AAACA9876Q1Z2",
+        "panNumber": "AAACA9876Q",
+        "website": "https://apexenterprise.com",
+        "companyLogo": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=80"
+      },
+      "customer": {
+        "customerName": "NexGen Technologies Inc.",
+        "billingAddress": "Tower B, 7th Floor, Cyber City, DLF Phase 2, Gurugram, Haryana 122002",
+        "shippingAddress": "Tower B, 7th Floor, Cyber City, DLF Phase 2, Gurugram, Haryana 122002",
+        "sameAsBilling": true,
+        "phone": "+91 98765 43210",
+        "email": "accounts@nexgentech.io",
+        "gstNumber": "06AABCN1234F1Z8",
+        "placeOfSupply": "Haryana (06)"
+      },
+      "meta": {
+        "invoiceNumber": "INV-202608-5169",
+        "invoiceDate": "2026-08-26",
+        "dueDate": "2026-09-25",
+        "paymentTerms": "Net 30",
+        "status": "Draft",
+        "currency": "INR",
+        "currencySymbol": "₹",
+        "poNumber": "",
+        "notes": "Thank you for your valued business. For any billing questions or support inquiries, contact billing@apexenterprise.com.",
+        "termsAndConditions": "1. Payment is due within the agreed payment term from the date of invoice.\n2. Please quote invoice number when remitting funds via NEFT/RTGS/UPI.\n3. Interest @ 18% per annum will be charged on overdue payments beyond due date.\n4. Goods/Services once billed cannot be returned unless agreed in writing.\n5. All disputes are subject to Kolkata jurisdiction only.",
+        "bankDetails": {
+          "bankName": "HDFC Bank Ltd.",
+          "accountNumber": "50200084920192",
+          "ifscCode": "HDFC0001042",
+          "branch": "Sector V, Salt Lake, Kolkata",
+          "upiId": "apexenterprise@hdfcbank"
+        }
+      },
+      "items": [
+        {
+          "id": "item-1787728943547",
+          "productId": "prod-1",
+          "sku": "PROD001",
+          "name": "Product A",
+          "description": "Premium product",
+          "quantity": 1,
+          "price": 500,
+          "gstRate": 18,
+          "hsnCode": "8471",
+          "unit": "Pcs",
+          "discountPercent": 0,
+          "taxableAmount": 500,
+          "gstAmount": 90,
+          "total": 590
+        }
+      ],
+      "summary": {
+        "itemsCount": 1,
+        "totalQuantity": 1,
+        "subtotal": 500,
+        "itemDiscountTotal": 0,
+        "globalDiscountType": "percent",
+        "globalDiscountValue": 0,
+        "globalDiscountAmount": 0,
+        "taxableSubtotal": 500,
+        "isInterState": false,
+        "cgstRate": 9,
+        "cgstAmount": 45,
+        "sgstRate": 9,
+        "sgstAmount": 45,
+        "igstRate": 18,
+        "igstAmount": 0,
+        "totalTax": 90,
+        "roundOff": 0,
+        "grandTotal": 590,
+        "amountInWords": "Rupees Five Hundred Ninety Only"
+      },
+      "status": "Paid"
+    }
+  ],
+  "companySettings": null
+}

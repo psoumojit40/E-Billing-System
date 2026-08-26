@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html,
+  body,
+  input,
+  textarea,
+  select,
+  button,
+  table,
+  th,
+  td,
+  p,
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  label {
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+
+  * {
+    border-color: var(--color-slate-200, #e2e8f0);
+    font-family: Arial, Helvetica, sans-serif !important;
+  }
+
+  .dark * {
+    border-color: #383838;
+  }
+  
+  button,
+  [role="button"],
+  .btn,
+  select,
+  nav button {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
+    outline: none !important;
+    border: none;
+  }
+}
+
+/* Dark Mode Global Styles */
+.dark body {
+  background-color: #0D0D0D;
+  color: #E5E7EB;
+}
+
+.dark input:not(#invoice-printable-document input),
+.dark textarea:not(#invoice-printable-document textarea),
+.dark select:not(#invoice-printable-document select) {
+  background-color: #1E1E1E;
+  color: #FFFFFF;
+  border-color: #383838;
+}
+
+.dark input:not(#invoice-printable-document input):focus,
+.dark textarea:not(#invoice-printable-document textarea):focus,
+.dark select:not(#invoice-printable-document select):focus {
+  background-color: #242424;
+  border-color: #6366F1;
+}
+
+.dark input:not(#invoice-printable-document input)::placeholder,
+.dark textarea:not(#invoice-printable-document textarea)::placeholder {
+  color: #7A7A7A;
+}
+
+/* Invoice Printable Paper remains pure white */
+.dark #invoice-printable-document {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.dark #invoice-printable-document * {
+  color: #000000 !important;
+}
+
+.dark #invoice-printable-document .bg-black,
+.dark #invoice-printable-document .bg-slate-900 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.dark #invoice-printable-document .bg-black * {
+  color: #ffffff !important;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 6mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide background elements, sidebars, headers, toasts */
+  aside,
+  header,
+  nav,
+  main,
+  .no-print,
+  #invoice-modal-topbar,
+  #invoice-preview-modal-backdrop {
+    display: none !important;
+  }
+
+  /* Modal container resets to non-overlay */
+  #invoice-preview-modal-overlay {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: auto !important;
+  }
+
+  #invoice-preview-modal-overlay > div.relative {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  #invoice-modal-scroll-container {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  #invoice-printable-document {
+    position: static !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-radius: 0 !important;
+  }
+
+  #invoice-printable-document * {
+    color: #000000 !important;
+    border-color: #000000 !important;
+    box-shadow: none !important;
+  }
+
+  #invoice-printable-document .bg-black,
+  #invoice-printable-document .bg-slate-900 {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  #invoice-printable-document .bg-black * {
+    color: #ffffff !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+}

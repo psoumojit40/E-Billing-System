@@ -1,0 +1,6 @@
+{
+  "name": "Product Invoice Generator",
+  "description": "Enterprise-grade invoice generator with dynamic product catalog, automatic GST and discount calculations, PDF generation and download, and MySQL/REST API storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
