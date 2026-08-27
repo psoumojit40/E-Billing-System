@@ -130,7 +130,12 @@ export default function App() {
   }, [items, globalDiscountType, globalDiscountValue, isInterState]);
 
   // Fetch initial data from server APIs
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isLoadingInvoices, setIsLoadingInvoices] = useState(true);
+  const [isLoadingCompanies, setIsLoadingCompanies] = useState(true);
+
   const fetchProducts = useCallback(async () => {
+    setIsLoadingProducts(true);
     try {
       const res = await fetch(`${API_BASE}/api/products`);
       if (res.ok) {
@@ -141,10 +146,13 @@ export default function App() {
       }
     } catch (err) {
       console.warn('Using local fallback for preset products:', err);
+    } finally {
+      setIsLoadingProducts(false);
     }
   }, []);
 
   const fetchInvoices = useCallback(async () => {
+    setIsLoadingInvoices(true);
     try {
       const res = await fetch(`${API_BASE}/api/invoices`);
       if (res.ok) {
@@ -155,10 +163,13 @@ export default function App() {
       }
     } catch (err) {
       console.warn('Using local fallback for invoices:', err);
+    } finally {
+      setIsLoadingInvoices(false);
     }
   }, []);
 
   const fetchCompanies = useCallback(async () => {
+    setIsLoadingCompanies(true);
     try {
       const res = await fetch(`${API_BASE}/api/companies`);
       if (res.ok) {
@@ -169,6 +180,8 @@ export default function App() {
       }
     } catch (err) {
       console.warn('Using local fallback for companies:', err);
+    } finally {
+      setIsLoadingCompanies(false);
     }
   }, []);
 
@@ -774,6 +787,7 @@ export default function App() {
                 onDeleteInvoice={handleDeleteInvoice}
                 onUpdateStatus={handleUpdateStatus}
                 onCreateNew={handleNewInvoice}
+                isLoading={isLoadingInvoices}
               />
             </div>
           )}
@@ -788,6 +802,7 @@ export default function App() {
                 onUpdateProduct={handleUpdateProduct}
                 onDeleteProduct={handleDeleteProduct}
                 onResetDefaults={handleResetProductDefaults}
+                isLoading={isLoadingProducts}
               />
             </div>
           )}
@@ -802,6 +817,7 @@ export default function App() {
                 onAddCompany={handleAddCompany}
                 onUpdateCompany={handleUpdateCompany}
                 onDeleteCompany={handleDeleteCompany}
+                isLoading={isLoadingCompanies}
               />
             </div>
           )}

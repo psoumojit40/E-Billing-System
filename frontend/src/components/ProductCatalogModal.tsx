@@ -18,6 +18,7 @@ interface ProductCatalogModalProps {
   onUpdateProduct?: (id: string, product: Partial<ProductItem>) => Promise<void>;
   onDeleteProduct: (id: string) => Promise<void>;
   onResetDefaults: () => void;
+  isLoading?: boolean;
 }
 
 export const ProductCatalogModal: React.FC<ProductCatalogModalProps> = ({
@@ -27,6 +28,7 @@ export const ProductCatalogModal: React.FC<ProductCatalogModalProps> = ({
   onUpdateProduct,
   onDeleteProduct,
   onResetDefaults,
+  isLoading = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
@@ -331,7 +333,13 @@ export const ProductCatalogModal: React.FC<ProductCatalogModalProps> = ({
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs border-collapse">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center py-20 px-4">
+              <div className="w-10 h-10 border-4 border-indigo-200 dark:border-indigo-900 border-t-indigo-600 dark:border-t-indigo-500 rounded-full animate-spin mb-4"></div>
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 animate-pulse">Loading product catalog...</p>
+            </div>
+          ) : (
+            <table className="w-full text-left text-xs border-collapse">
             <thead className="bg-slate-100/90 dark:bg-[#141414] text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-[#2C2C2C]">
               <tr>
                 <th className="py-3 px-4 w-28">SKU</th>
@@ -391,7 +399,8 @@ export const ProductCatalogModal: React.FC<ProductCatalogModalProps> = ({
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          )}
         </div>
       </div>
     </div>

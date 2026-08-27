@@ -29,6 +29,7 @@ interface SavedInvoicesListProps {
   onDeleteInvoice: (id: string) => void;
   onUpdateStatus: (id: string, newStatus: InvoiceStatus) => void;
   onCreateNew: () => void;
+  isLoading?: boolean;
 }
 
 export const SavedInvoicesList: React.FC<SavedInvoicesListProps> = ({
@@ -40,6 +41,7 @@ export const SavedInvoicesList: React.FC<SavedInvoicesListProps> = ({
   onDeleteInvoice,
   onUpdateStatus,
   onCreateNew,
+  isLoading = false,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
@@ -411,7 +413,12 @@ export const SavedInvoicesList: React.FC<SavedInvoicesListProps> = ({
         </div>
 
         {/* Table */}
-        {filtered.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 px-4">
+            <div className="w-10 h-10 border-4 border-indigo-200 dark:border-indigo-900 border-t-indigo-600 dark:border-t-indigo-500 rounded-full animate-spin mb-4"></div>
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 animate-pulse">Loading saved invoices...</p>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-12 px-4">
             <FileText className="h-10 w-10 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
             <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">No invoices found</h3>

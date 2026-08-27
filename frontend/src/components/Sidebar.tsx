@@ -23,8 +23,6 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  savedCount,
-  companyCount,
   onPreviewInvoice,
   isDarkMode,
   onToggleDarkMode,
@@ -102,13 +100,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Database className={`h-4 w-4 ${activeTab === 'saved' ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
               <span>Saved Invoices</span>
             </div>
-            <span
-              className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold ${
-                activeTab === 'saved' ? 'bg-white/20 text-white' : 'bg-slate-200/80 dark:bg-[#282828] text-slate-700 dark:text-slate-300'
-              }`}
-            >
-              {savedCount}
-            </span>
           </button>
 
           <button
@@ -141,13 +132,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Building2 className={`h-4 w-4 ${activeTab === 'companies' ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
               <span>Company Profiles</span>
             </div>
-            <span
-              className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold ${
-                activeTab === 'companies' ? 'bg-white/20 text-white' : 'bg-slate-200/80 dark:bg-[#282828] text-slate-700 dark:text-slate-300'
-              }`}
-            >
-              {companyCount}
-            </span>
           </button>
         </div>
       </div>

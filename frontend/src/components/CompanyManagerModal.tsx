@@ -16,6 +16,7 @@ interface CompanyManagerModalProps {
   onAddCompany: (company: SavedCompany) => void;
   onUpdateCompany: (id: string, company: Partial<SavedCompany>) => void;
   onDeleteCompany: (id: string) => void;
+  isLoading?: boolean;
 }
 
 export const CompanyManagerModal: React.FC<CompanyManagerModalProps> = ({
@@ -24,8 +25,10 @@ export const CompanyManagerModal: React.FC<CompanyManagerModalProps> = ({
   onAddCompany,
   onUpdateCompany,
   onDeleteCompany,
+  isLoading = false,
 }) => {
   const [editingCompanyId, setEditingCompanyId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState<Omit<SavedCompany, 'id'>>({
     companyName: '',
     tagline: '',
@@ -95,6 +98,10 @@ export const CompanyManagerModal: React.FC<CompanyManagerModalProps> = ({
       handleCancelEdit();
     }
   };
+
+  const filteredCompanies = companies.filter((c) =>
+    c.companyName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
@@ -292,23 +299,37 @@ export const CompanyManagerModal: React.FC<CompanyManagerModalProps> = ({
         <div className="lg:col-span-5 space-y-4">
           <div className="bg-white dark:bg-[#181818] rounded-2xl border border-slate-200/80 dark:border-[#2C2C2C] shadow-sm hover:shadow-md transition-all overflow-hidden relative">
             <div className="h-1 w-full bg-gradient-to-r from-purple-500 to-indigo-500"></div>
-            <div className="px-5 py-3.5 border-b border-slate-100 dark:border-[#282828] bg-gradient-to-r from-slate-50/90 via-white to-purple-50/20 dark:from-[#1E1E1E] dark:via-[#181818] dark:to-[#1E1E1E] flex justify-between items-center">
+            <div className="px-5 py-3.5 border-b border-slate-100 dark:border-[#282828] bg-gradient-to-r from-slate-50/90 via-white to-purple-50/20 dark:from-[#1E1E1E] dark:via-[#181818] dark:to-[#1E1E1E] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
                 <div className="w-6 h-6 rounded-md bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-100 dark:border-purple-900/40">
                   <Building2 className="h-3.5 w-3.5" />
                 </div>
                 <span>Saved Company Profiles</span>
               </h3>
+              <div className="relative w-full sm:w-64">
+                <input
+                  type="text"
+                  placeholder="Search by company name..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full px-3 py-1.5 text-xs bg-white dark:bg-[#141414] text-slate-900 dark:text-white border border-slate-200 dark:border-[#383838] rounded-lg focus:outline-none focus:ring-1 focus:ring-purple-500"
+                />
+              </div>
             </div>
 
             <div className="p-4 space-y-3 max-h-[500px] overflow-y-auto">
-              {companies.length === 0 ? (
+              {isLoading ? (
+                <div className="flex flex-col items-center justify-center py-10">
+                  <div className="w-8 h-8 border-4 border-purple-200 dark:border-purple-900 border-t-purple-600 dark:border-t-purple-500 rounded-full animate-spin mb-3"></div>
+                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 animate-pulse">Loading profiles...</p>
+                </div>
+              ) : filteredCompanies.length === 0 ? (
                 <div className="text-center py-8 text-slate-400 dark:text-slate-500">
                   <Building2 className="h-8 w-8 mx-auto mb-2 opacity-50" />
                   <p className="text-xs font-bold uppercase tracking-wider">No company profiles stored yet</p>
                 </div>
               ) : (
-                companies.map((comp) => {
+                filteredCompanies.map((comp) => {
                   return (
                     <div
                       key={comp.id}
