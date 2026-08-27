@@ -157,7 +157,7 @@ export const ProductCatalogModal: React.FC<ProductCatalogModalProps> = ({
             className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-xl transition-all shadow-md shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 cursor-pointer flex items-center space-x-1.5"
           >
             {showAddForm ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-            <span>{showAddForm ? 'Cancel' : '+ New Product'}</span>
+            <span>{showAddForm ? 'Cancel' : 'New Product'}</span>
           </button>
         </div>
       </div>
