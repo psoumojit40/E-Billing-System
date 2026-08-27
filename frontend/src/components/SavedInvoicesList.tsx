@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { InvoiceRecord, InvoiceStatus } from '../types';
 import { formatCurrency } from '../utils/calculations';
+import { API_BASE } from '../utils/api';
 
 interface SavedInvoicesListProps {
   invoices: InvoiceRecord[];
@@ -116,7 +117,7 @@ export const SavedInvoicesList: React.FC<SavedInvoicesListProps> = ({
     setIsSendingEmail(true);
 
     try {
-      await fetch(`http://localhost:5000/api/invoices/${sendModalTarget.id}/send-email`, {
+      await fetch(`${API_BASE}/api/invoices/${sendModalTarget.id}/send-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

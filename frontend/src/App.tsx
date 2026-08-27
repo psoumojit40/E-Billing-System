@@ -42,6 +42,7 @@ import { CheckCircle2, AlertCircle, Info, RotateCcw, Moon, Sun } from 'lucide-re
 
 import { CompanyManagerModal } from './components/CompanyManagerModal';
 import { SavedCompany } from './types';
+import { API_BASE } from './utils/api';
 
 export default function App() {
   // Navigation tab: 'generator' | 'saved' | 'catalog' | 'companies'
@@ -131,7 +132,7 @@ export default function App() {
   // Fetch initial data from server APIs
   const fetchProducts = useCallback(async () => {
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch(`${API_BASE}/api/products`);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data && json.data.length > 0) {
@@ -145,7 +146,7 @@ export default function App() {
 
   const fetchInvoices = useCallback(async () => {
     try {
-      const res = await fetch('/api/invoices');
+      const res = await fetch(`${API_BASE}/api/invoices`);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
@@ -159,7 +160,7 @@ export default function App() {
 
   const fetchCompanies = useCallback(async () => {
     try {
-      const res = await fetch('/api/companies');
+      const res = await fetch(`${API_BASE}/api/companies`);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
@@ -180,7 +181,7 @@ export default function App() {
   // Company CRUD Handlers
   const handleAddCompany = async (newCompany: SavedCompany) => {
     try {
-      const res = await fetch('/api/companies', {
+      const res = await fetch(`${API_BASE}/api/companies`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCompany),
@@ -201,7 +202,7 @@ export default function App() {
 
   const handleUpdateCompany = async (id: string, updated: Partial<SavedCompany>) => {
     try {
-      const res = await fetch(`/api/companies/${id}`, {
+      const res = await fetch(`${API_BASE}/api/companies/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updated),
@@ -228,7 +229,7 @@ export default function App() {
 
   const handleDeleteCompany = async (id: string) => {
     try {
-      await fetch(`/api/companies/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE}/api/companies/${id}`, { method: 'DELETE' });
       setSavedCompanies((prev) => prev.filter((c) => c.id !== id));
       showToast('Company profile deleted', 'info');
     } catch (err) {
@@ -418,7 +419,7 @@ export default function App() {
     };
 
     try {
-      const res = await fetch('/api/invoices', {
+      const res = await fetch(`${API_BASE}/api/invoices`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(invoicePayload),
@@ -518,7 +519,7 @@ export default function App() {
   // Delete invoice from backend MySQL
   const handleDeleteInvoice = async (id: string) => {
     try {
-      const res = await fetch(`/api/invoices/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_BASE}/api/invoices/${id}`, { method: 'DELETE' });
       if (res.ok) {
         showToast('Invoice deleted from database', 'info');
       }
@@ -532,7 +533,7 @@ export default function App() {
   // Update status in backend
   const handleUpdateStatus = async (id: string, newStatus: InvoiceStatus) => {
     try {
-      await fetch(`/api/invoices/${id}`, {
+      await fetch(`${API_BASE}/api/invoices/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -551,7 +552,7 @@ export default function App() {
   // Product Catalog management Handlers
   const handleAddProduct = async (product: Omit<ProductItem, 'id'>) => {
     try {
-      const res = await fetch('/api/products', {
+      const res = await fetch(`${API_BASE}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(product),
@@ -580,7 +581,7 @@ export default function App() {
 
   const handleUpdateProduct = async (id: string, updated: Partial<ProductItem>) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(`${API_BASE}/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updated),
@@ -607,7 +608,7 @@ export default function App() {
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      await fetch(`/api/products/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE}/api/products/${id}`, { method: 'DELETE' });
       setPresetProducts((prev) => prev.filter((p) => p.id !== id));
       showToast('Product removed from catalog', 'info');
     } catch (err) {

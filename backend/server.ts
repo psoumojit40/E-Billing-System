@@ -840,7 +840,20 @@ app.delete('/api/invoices/:id', async (req, res) => {
   res.json({ success: true, database: 'JSON', message: 'Invoice deleted' });
 });
 
-// Start Server & Initialize XAMPP MySQL Connection
+// Serve static frontend assets if built (for all-in-one cloud deployments)
+const FRONTEND_DIST = path.join(__dirname, '../frontend/dist');
+const LOCAL_FRONTEND_DIST = path.join(__dirname, 'frontend/dist');
+const distPath = fs.existsSync(FRONTEND_DIST) ? FRONTEND_DIST : fs.existsSync(LOCAL_FRONTEND_DIST) ? LOCAL_FRONTEND_DIST : null;
+
+if (distPath) {
+  app.use(express.static(distPath));
+  app.get('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
+// Start Server & Initialize Database Connection
 app.listen(PORT, async () => {
   console.log(`Backend API Server running on http://localhost:${PORT}`);
   await initMysqlDatabase();
