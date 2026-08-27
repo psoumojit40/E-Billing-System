@@ -29,6 +29,9 @@ COPY . /var/www/html/
 RUN sed -i 's!/var/www/html!/var/www/html/backend/public!g' /etc/apache2/sites-available/000-default.conf
 RUN sed -i 's!/var/www/!/var/www/html/backend/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
+# Enable AllowOverride All so Laravel's .htaccess can route requests to index.php
+RUN echo "<Directory /var/www/html/backend/public>\n\tAllowOverride All\n\tRequire all granted\n</Directory>" >> /etc/apache2/apache2.conf
+
 # --- BUILD FRONTEND ---
 # Install NPM dependencies and build the React app into backend/public
 RUN npm install
