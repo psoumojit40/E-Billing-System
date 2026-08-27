@@ -22,12 +22,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE = path.join(DATA_DIR, 'database.json');
 
-// XAMPP MySQL configuration
+// Database configuration (Local XAMPP / TiDB Cloud / Railway / Aiven / PlanetScale)
+const DATABASE_URL = process.env.DATABASE_URL || '';
 const DB_HOST = process.env.DB_HOST || '127.0.0.1';
 const DB_PORT = Number(process.env.DB_PORT) || 3306;
 const DB_USER = process.env.DB_USER || 'root';
 const DB_PASSWORD = process.env.DB_PASSWORD || '';
 const DB_NAME = process.env.DB_NAME || 'invoice_generator_db';
+const DB_SSL = process.env.DB_SSL === 'true' || DB_PORT === 4000 || DB_HOST.includes('tidbcloud.com');
 
 let pool: mysql.Pool | null = null;
 let isMysqlConnected = false;
@@ -148,28 +150,54 @@ const DEFAULT_COMPANIES = [
 
 async function initMysqlDatabase(): Promise<boolean> {
   try {
-    // 1. Root connection without database to ensure DB creation
-    const rootConnection = await mysql.createConnection({
-      host: DB_HOST,
-      port: DB_PORT,
-      user: DB_USER,
-      password: DB_PASSWORD,
-    });
+    const sslConfig = DB_SSL ? { minVersion: 'TLSv1.2', rejectUnauthorized: true } : undefined;
 
-    await rootConnection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
-    await rootConnection.end();
+    if (DATABASE_URL) {
+      pool = mysql.createPool(DATABASE_URL);
+    } else {
+      // 1. Try direct connection to target database first (required for TiDB Cloud / managed cloud DBs)
+      try {
+        pool = mysql.createPool({
+          host: DB_HOST,
+          port: DB_PORT,
+          user: DB_USER,
+          password: DB_PASSWORD,
+          database: DB_NAME,
+          ssl: sslConfig,
+          waitForConnections: true,
+          connectionLimit: 10,
+          queueLimit: 0,
+        });
+        await pool.query('SELECT 1');
+      } catch (directErr: any) {
+        // If database doesn't exist on local MySQL/XAMPP, try creating it
+        if (directErr?.code === 'ER_BAD_DB_ERROR' || directErr?.errno === 1049) {
+          const rootConnection = await mysql.createConnection({
+            host: DB_HOST,
+            port: DB_PORT,
+            user: DB_USER,
+            password: DB_PASSWORD,
+            ssl: sslConfig,
+          });
+          await rootConnection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+          await rootConnection.end();
 
-    // 2. Pool connection to target database
-    pool = mysql.createPool({
-      host: DB_HOST,
-      port: DB_PORT,
-      user: DB_USER,
-      password: DB_PASSWORD,
-      database: DB_NAME,
-      waitForConnections: true,
-      connectionLimit: 10,
-      queueLimit: 0,
-    });
+          pool = mysql.createPool({
+            host: DB_HOST,
+            port: DB_PORT,
+            user: DB_USER,
+            password: DB_PASSWORD,
+            database: DB_NAME,
+            ssl: sslConfig,
+            waitForConnections: true,
+            connectionLimit: 10,
+            queueLimit: 0,
+          });
+        } else {
+          throw directErr;
+        }
+      }
+    }
 
     // 3. Create Products Table
     await pool.query(`
@@ -242,11 +270,11 @@ async function initMysqlDatabase(): Promise<boolean> {
     }
 
     isMysqlConnected = true;
-    console.log(`✅ Successfully connected to XAMPP MySQL database: ${DB_NAME} on ${DB_HOST}:${DB_PORT}`);
+    console.log(`✅ Successfully connected to MySQL database: ${DB_NAME} on ${DB_HOST}:${DB_PORT} (SSL: ${DB_SSL ? 'Enabled' : 'Disabled'})`);
     return true;
   } catch (err) {
     isMysqlConnected = false;
-    console.warn(`⚠️ Could not connect to XAMPP MySQL (${DB_HOST}:${DB_PORT}). Falling back to JSON storage file: ${err}`);
+    console.warn(`⚠️ Could not connect to MySQL (${DB_HOST}:${DB_PORT}). Falling back to JSON storage file: ${err}`);
     return false;
   }
 }
