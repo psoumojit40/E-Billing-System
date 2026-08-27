@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.js",
-    "build": "esbuild server.ts --bundle --platform=node --format=esm --outfile=server.js",
+    "build": "esbuild server.ts --bundle --platform=node --format=esm --packages=external --outfile=server.js",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
+    "esbuild": "^0.25.0",
     "express": "^4.21.2",
     "mysql2": "^3.24.2"
   },
@@ -19,7 +20,6 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
-    "esbuild": "^0.25.0",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2"
   }
